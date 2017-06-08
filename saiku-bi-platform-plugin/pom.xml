@@ -158,8 +158,8 @@
 									<outputDirectory>target/dist/saiku/lib</outputDirectory>
 								</artifactItem>
 								<artifactItem>
-									<groupId>iText</groupId>
-									<artifactId>iText</artifactId>
+									<groupId>com.itextpdf</groupId>
+									<artifactId>itextpdf</artifactId>
 									<outputDirectory>target/dist/saiku/lib</outputDirectory>
 								</artifactItem>
 								<artifactItem>

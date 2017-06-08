@@ -39,7 +39,7 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <top.dir>${project.basedir}</top.dir>
-        <spring.version>4.1.6.RELEASE</spring.version>
+        <spring.version>4.1.4.RELEASE</spring.version>
         <spring.security.version>4.0.1.RELEASE</spring.security.version>
         <slf4j.version>1.6.4</slf4j.version>
         <jersey.version>1.19</jersey.version>
@@ -52,13 +52,6 @@
         <serenity.version>1.0.58</serenity.version>
         <jbehave.version>3.9.3</jbehave.version>
     </properties>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>Analytical Labs Plugin Repo</id>
-            <name>Analytical Labs Repo-releases</name>
-            <url>http://repo.meteorite.bi/repository/alabs-release-local/</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <repositories>
         <repository>
@@ -74,16 +67,6 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </repository>
-        <repository>
-            <id>Analytical Labs Repo</id>
-            <name>Analytical Labs Repo-releases</name>
-            <url>http://repo.meteorite.bi/repository/alabs-release-local/</url>
-        </repository>
-        <repository>
-            <id>Analytical Labs snapshots</id>
-            <name>Analytical Labs Repo-releases</name>
-            <url>http://repo.meteorite.bi/repository/alabs-snapshot-local/</url>
         </repository>
         <repository>
             <id>pentaho-third-party</id>
@@ -805,8 +788,8 @@
             </dependency>
             <dependency>
                 <groupId>pentaho</groupId>
-                <artifactId>cpf-pentaho5</artifactId>
-                <version>6.1.0.0-9</version>
+                <artifactId>cpf-pentaho</artifactId>
+                <version>14.10.15</version>
                 <exclusions>
                     <exclusion>
                         <groupId>pentaho</groupId>
@@ -947,7 +930,7 @@
             <dependency>
                 <groupId>pentaho</groupId>
                 <artifactId>cda</artifactId>
-                <version>14.05.06</version>
+                <version>14.10.15</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>

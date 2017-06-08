@@ -208,8 +208,8 @@
                                     <outputDirectory>target/dist/saiku/lib</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>iText</groupId>
-                                    <artifactId>iText</artifactId>
+                                    <groupId>com.itextpdf</groupId>
+                                    <artifactId>itextpdf</artifactId>
                                     <outputDirectory>target/dist/saiku/lib</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
@@ -437,7 +437,7 @@
         </dependency>
         <dependency>
             <groupId>pentaho</groupId>
-            <artifactId>cpf-pentaho5</artifactId>
+            <artifactId>cpf-pentaho</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>pentaho</groupId>
