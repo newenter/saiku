@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.saikuanalytics</groupId>
     <artifactId>saiku</artifactId>
     <packaging>pom</packaging>
-    <version>3.14</version> 
+    <version>3.14</version>
     <name>Saiku Module Project</name>
     <scm>
         <developerConnection>
@@ -25,14 +26,13 @@
 
     <distributionManagement>
         <repository>
-            <id>utility</id>
-            <name>utility-releases</name>
-            <url>http://repo.meteorite.bi/repository/alabs-release-local/</url>
+            <id>releases</id>
+            <url>http://nexus.2dfire-dev.com/content/repositories/releases</url>
+            <uniqueVersion>true</uniqueVersion>
         </repository>
         <snapshotRepository>
-            <id>utility</id>
-            <name>utility-snapshots</name>
-            <url>http://repo.meteorite.bi/repository/alabs-snapshot-local/</url>
+            <id>snapshots</id>
+            <url>http://nexus.2dfire-dev.com/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     <properties>
@@ -48,7 +48,7 @@
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
         <calcite.version>0.9.2-incubating-SNAPSHOT</calcite.version>
         <pentaho.libs.version>TRUNK-SNAPSHOT</pentaho.libs.version>
-        <pentaho.platform.version>5.0.0</pentaho.platform.version>
+        <pentaho.platform.version>7.0.0.0-25</pentaho.platform.version>
         <serenity.version>1.0.58</serenity.version>
         <jbehave.version>3.9.3</jbehave.version>
     </properties>
@@ -61,6 +61,20 @@
     </pluginRepositories>
 
     <repositories>
+        <repository>
+            <id>pentaho-releases</id>
+            <url>http://repository.pentaho.org/artifactory/repo/</url>
+        </repository>
+        <repository>
+            <id>releases</id>
+            <url>http://nexus.2dfire-dev.com/content/repositories/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>Analytical Labs Repo</id>
             <name>Analytical Labs Repo-releases</name>
@@ -83,10 +97,6 @@
             <id>pentaho-snapshot</id>
             <url>http://nexus.pentaho.org/content/repositories/public-snapshots/</url>
         </repository>
-        <!--<repository>
-            <id>atlassian2</id>
-            <url>http://repository.opencastproject.org/</url>
-        </repository>-->
         <repository>
             <id>central</id>
             <name>Maven Repository Switchboard</name>
@@ -115,12 +125,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-
-    	<repository>
-    		<id>pentaho-releases</id>
-    		<url>http://repository.pentaho.org/artifactory/repo/</url>
-    	</repository>
-
         <repository>
             <id>miredot</id>
             <url>http://nexus.qmino.com/content/repositories/miredot/</url>
@@ -132,45 +136,6 @@
     </repositories>
     <build>
         <plugins>
-      <!--      <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-changes-plugin</artifactId>
-                <version>2.11</version>
-                <executions>
-                    <execution>
-                        <id>include-announcement-file</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>announcement-generate</goal>
-                        </goals>
-                        <configuration>
-                            <announcementFile>CHANGES.txt</announcementFile>
-                            <announcementDirectory>${project.build.outputDirectory}/META-INF</announcementDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <issueManagementSystems>
-                        <issueManagementSystem>JIRA</issueManagementSystem>
-                    </issueManagementSystems>
-                    <smtpHost>mail.yourhost.com</smtpHost>
-                    <smtpPort implementation="java.lang.Integer">25</smtpPort>
-                    <mailSender>
-                        <name>Release Notification</name>
-                        <email>build@example.com</email>
-                    </mailSender>
-                    <toAddresses>
-                        <toAddress implementation="java.lang.String">to@example.com</toAddress>
-                    </toAddresses>
-                    <useJql>true</useJql>
-                    <onlyCurrentVersion>true</onlyCurrentVersion>
-                    <resolutionIds>Fixed,Done</resolutionIds>
-                    <statusIds>Closed,Resolved,Done</statusIds>
-                    <columnNames>Type,Key,Summary,Priority,Status,Resolution,Fix Version,Assignee</columnNames>
-                    <webUser>...</webUser>
-                    <webPassword>...</webPassword>
-                </configuration>
-            </plugin>-->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -239,28 +204,6 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <configLocation>${top.dir}/src/main/config/checkstyle/checker.xml</configLocation>
-                            <suppressionsLocation>${top.dir}/src/main/config/checkstyle/suppressions.xml</suppressionsLocation>
-                            <consoleOutput>true</consoleOutput>
-                            <headerLocation>${top.dir}/src/main/config/checkstyle/header.txt</headerLocation>
-                            <failOnViolation>true</failOnViolation>
-                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                        </configuration>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-
         </plugins>
         <pluginManagement>
             <plugins>
@@ -301,9 +244,9 @@
         </plugins>
     </reporting>-->
     <profiles>
-            <profile>
-                <id>ci</id>
-                <modules>
+        <profile>
+            <id>ci</id>
+            <modules>
                 <module>saiku-core</module>
                 <module>saiku-ui</module>
                 <module>saiku-webapp</module>
@@ -408,7 +351,7 @@
             <dependency>
                 <groupId>org.saikuanalytics</groupId>
                 <artifactId>saiku-webapp</artifactId>
-                <version>3.1-SNAPSHOT</version>
+                <version>${project.version}</version>
                 <type>war</type>
             </dependency>
             <dependency>
@@ -434,7 +377,7 @@
             <dependency>
                 <groupId>org.olap4j</groupId>
                 <artifactId>olap4j</artifactId>
-                <version>TRUNK-SNAPSHOT</version>
+                <version>1.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
@@ -670,10 +613,11 @@
                 <artifactId>batik-ext</artifactId>
                 <version>1.7</version>
             </dependency>
+            <!-- A Free Java-PDF library -->
             <dependency>
-                <groupId>iText</groupId>
-                <artifactId>iText</artifactId>
-                <version>4.2.0</version>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itextpdf</artifactId>
+                <version>5.5.11</version>
             </dependency>
             <dependency>
                 <groupId>org.saikuanalytics</groupId>
@@ -694,7 +638,7 @@
             <dependency>
                 <groupId>pentaho</groupId>
                 <artifactId>mondrian</artifactId>
-                <version>4.3.0.1.1-SPARK</version>
+                <version>4.3.0.1.2-SPARK</version>
             </dependency>
             <!-- Spring modules -->
             <dependency>
@@ -851,7 +795,7 @@
             <dependency>
                 <groupId>pentaho</groupId>
                 <artifactId>cpf-core</artifactId>
-                <version>5.2.0.2-84</version>
+                <version>7.0.0.0-25</version>
                 <exclusions>
                     <exclusion>
                         <groupId>janino</groupId>
@@ -862,7 +806,7 @@
             <dependency>
                 <groupId>pentaho</groupId>
                 <artifactId>cpf-pentaho5</artifactId>
-                <version>5.2.0.2-84</version>
+                <version>6.1.0.0-9</version>
                 <exclusions>
                     <exclusion>
                         <groupId>pentaho</groupId>
@@ -891,7 +835,7 @@
             <dependency>
                 <groupId>pentaho</groupId>
                 <artifactId>pentaho-platform-repository</artifactId>
-                <version>5.2.0.2-84</version>
+                <version>7.0.0.0-25</version>
             </dependency>
             <dependency>
                 <groupId>pentaho</groupId>
@@ -1003,7 +947,7 @@
             <dependency>
                 <groupId>pentaho</groupId>
                 <artifactId>cda</artifactId>
-                <version>TRUNK-SNAPSHOT</version>
+                <version>14.05.06</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>

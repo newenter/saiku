@@ -335,28 +335,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
+                <version>2.5</version>
+                <!--<configuration>
                     <aggregate>true</aggregate>
-                </configuration>
+                </configuration>-->
             </plugin>
             <!-- Unit tests report -->
-            <plugin>
+           <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.3</version>
-            </plugin>
+                <version>2.20</version>
+            </plugin>-->
             <!-- "Release Audit" report (checks license headers etc.) -->
-            <plugin>
+            <!--<plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>rat-maven-plugin</artifactId>
                 <version>1.0-alpha-3</version>
-            </plugin>
+            </plugin>-->
             <!-- FindBugs Report -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>1.0.0</version>
+                <version>3.0.0</version>
                 <configuration>
                     <threshold>Normal</threshold>
                     <effort>Default</effort>
@@ -366,7 +366,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.17</version>
                 <configuration>
                     <!--configLocation>checkstyle.xml</configLocation -->
                     <enableRulesSummary>false</enableRulesSummary>
@@ -376,7 +376,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>2.0-beta-7</version>
+                <version>3.4</version>
                 <configuration>
                     <outputEncoding>UTF-8</outputEncoding>
                 </configuration>

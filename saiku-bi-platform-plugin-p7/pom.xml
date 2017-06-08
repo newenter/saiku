@@ -8,7 +8,7 @@
     <artifactId>saiku-bi-platform-plugin-p7</artifactId>
     <packaging>jar</packaging>
     <version>3.14</version> 
-    <name>saiku biserver plugin</name>
+    <name>saiku biserver plugin p7</name>
 
     <build>
         <resources>
@@ -138,7 +138,7 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>pentaho</groupId>
-                                    <artifactId>cpf-pentaho5</artifactId>
+                                    <artifactId>cpf-pentaho</artifactId>
                                     <outputDirectory>target/dist/saiku/lib</outputDirectory>
                                 </artifactItem>
                                 <!-- Batik/SVG -->
@@ -434,7 +434,6 @@
                     <artifactId>janino</artifactId>
                 </exclusion>
             </exclusions>
-            <version>6.0.0.0-353</version>
         </dependency>
         <dependency>
             <groupId>pentaho</groupId>
@@ -458,7 +457,6 @@
                 </exclusion>
 
             </exclusions>
-            <version>6.0.0.0-353</version>
 
         </dependency>
         <dependency>
@@ -750,8 +748,8 @@
             <artifactId>xmlgraphics-commons</artifactId>
         </dependency>
         <dependency>
-            <groupId>iText</groupId>
-            <artifactId>iText</artifactId>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
         </dependency>
 
         <dependency>

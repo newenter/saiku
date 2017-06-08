@@ -86,10 +86,10 @@ public class Database {
     public void init() throws SQLException {
         initDB();
         loadUsers();
-        loadFoodmart();
-        loadEarthquakes();
+//        loadFoodmart();
+//        loadEarthquakes();
         loadLegacyDatasources();
-        importLicense();
+//        importLicense();
     }
 
     private void initDB() {
