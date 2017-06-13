@@ -21,18 +21,16 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface ISessionService {
 
-  Map<String, Object> login(HttpServletRequest req,
-                            String username, String password) throws Exception;
+    Map<String, Object> login(HttpServletRequest req, String username, String password) throws Exception;
 
-  void logout(HttpServletRequest req);
+    void logout(HttpServletRequest req);
 
-  void authenticate(HttpServletRequest req, String username,
-                    String password);
+    void authenticate(HttpServletRequest req, String username, String password);
 
-  Map<String, Object> getSession() throws Exception;
+    Map<String, Object> getSession() throws Exception;
 
-  Map<String, Object> getAllSessionObjects();
+    Map<String, Object> getAllSessionObjects();
 
-  void clearSessions(HttpServletRequest req, String username, String password) throws Exception;
+    void clearSessions(HttpServletRequest req, String username, String password) throws Exception;
 
 }

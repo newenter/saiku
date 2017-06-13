@@ -13,21 +13,17 @@ import java.io.IOException;
 public interface ILicenseUtils {
     IDatasourceManager getRepositoryDatasourceManager();
 
-    void setRepositoryDatasourceManager(
-            IDatasourceManager repositoryDatasourceManager);
+    void setRepositoryDatasourceManager(IDatasourceManager repositoryDatasourceManager);
 
     void setLicense(SaikuLicense lic) throws IOException;
 
     void setLicense(String lic);
 
-    Object getLicense()
-            throws IOException, ClassNotFoundException, RepositoryException;
+    Object getLicense() throws IOException, ClassNotFoundException, RepositoryException;
 
-    SaikuLicense getLicenseNo64()
-                throws IOException, ClassNotFoundException, RepositoryException;
+    SaikuLicense getLicenseNo64() throws IOException, ClassNotFoundException, RepositoryException;
 
-    void validateLicense()
-                        throws LicenseException, RepositoryException, IOException, ClassNotFoundException;
+    void validateLicense() throws LicenseException, RepositoryException, IOException, ClassNotFoundException;
 
     void setAdminuser(String adminuser);
 

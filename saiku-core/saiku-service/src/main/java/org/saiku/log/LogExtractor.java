@@ -28,21 +28,22 @@ import java.io.IOException;
  */
 public class LogExtractor {
 
-  private String logdirectory;
-  private static final Logger log = LoggerFactory.getLogger(LogExtractor.class);
+    private String logdirectory;
 
-  public String readLog(String path) throws IOException {
-      if(path.contains("..")){
-        throw new IOException("Cannot display file outside of log folder");
-      }
-      return FileUtils.readFileToString(new File(logdirectory+File.separator+path));
-  }
+    private static final Logger log = LoggerFactory.getLogger(LogExtractor.class);
 
-  public String getLogdirectory() {
-    return logdirectory;
-  }
+    public String readLog(String path) throws IOException {
+        if (path.contains("..")) {
+            throw new IOException("Cannot display file outside of log folder");
+        }
+        return FileUtils.readFileToString(new File(logdirectory + File.separator + path));
+    }
 
-  public void setLogdirectory(String logdirectory) {
-    this.logdirectory = logdirectory;
-  }
+    public String getLogdirectory() {
+        return logdirectory;
+    }
+
+    public void setLogdirectory(String logdirectory) {
+        this.logdirectory = logdirectory;
+    }
 }

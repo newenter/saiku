@@ -8,12 +8,16 @@
        xmlns:security="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
-			   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/security
+                http://www.springframework.org/schema/security/spring-security-4.0.xsd
+			    http://www.springframework.org/schema/beans
+			    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			   http://www.springframework.org/schema/context
+			   http://www.springframework.org/schema/context/spring-context.xsd">
 
 
     <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider ref="daoAuthenticationProvider" />
+        <security:authentication-provider ref="daoAuthenticationProvider"/>
     </security:authentication-manager>
 
     <!-- Custom login configuration -->
@@ -22,13 +26,13 @@
     <!-- Custom logout configuration -->
     <bean id="orbisLogoutHandler" class="org.saiku.web.service.OrbisLogoutHandler"/>
     <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
-        <constructor-arg index="0" value="/saiku/session/login" />
+        <constructor-arg index="0" value="/saiku/session/login"/>
         <constructor-arg index="1">
             <list>
-                <ref bean="orbisLogoutHandler" />
+                <ref bean="orbisLogoutHandler"/>
             </list>
         </constructor-arg>
-        <property name="filterProcessesUrl" value="/saiku/session/logout" />
+        <property name="filterProcessesUrl" value="/saiku/session/logout"/>
     </bean>
 
 </beans>

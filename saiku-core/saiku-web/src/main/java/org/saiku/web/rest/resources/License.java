@@ -31,117 +31,120 @@ import javax.ws.rs.core.Response;
 /**
  * Saiku license information resource.
  *
- * @since 3.0
  * @author tbarber
+ * @since 3.0
  */
 @Component
 @Path("/saiku/api/license")
 public class License {
+    private ILicenseUtils licenseUtils;
+    private UserService   userService;
 
-  private ILicenseUtils licenseUtils;
-  private UserService userService;
-
-  public ILicenseUtils getLicenseUtils() {
-    return licenseUtils;
-  }
-
-  public void setLicenseUtils(ILicenseUtils licenseUtils) {
-    this.licenseUtils = licenseUtils;
-  }
-
-  private Database databaseManager;
-
-  public Database getDatabaseManager() {
-    return databaseManager;
-  }
-
-  public void setDatabaseManager(Database databaseManager) {
-    this.databaseManager = databaseManager;
-  }
-
-  public void setUserService(UserService us) {
-    userService = us;
-  }
-
-  /**
-   * Get the saiku
-   * @summary Get the Saiku License installed on the current server
-   * @return A response containing a license object.
-   */
-  @GET
-  @Produces({ "application/json" })
-  public Response getLicense() {
-    try {
-      return Response.ok().entity(licenseUtils.getLicense()).build();
-    } catch (IOException | RepositoryException | ClassNotFoundException e) {
-      e.printStackTrace();
-    }
-    return Response.serverError().build();
-  }
-
-  private static final int SIZE = 2048;
-
-
-  /**
-   * Upload a new license to the Saiku server.
-   * @summary Upload a new license
-   * @param is A license encapsulated in an input stream
-   * @return An acknowledgement as to whether the server installation was successful.
-   */
-  @POST
-  @Consumes("application/x-java-serialized-object")
-  @Produces("text/plain")
-  @ReturnType("java.lang.String")
-  public Response saveLicense(InputStream is) {
-    ObjectInputStream si = null;
-    byte[] sig;
-    byte[] data = null;
-    try {
-      si = new ObjectInputStream(is);
-    } catch (IOException e) {
-      e.printStackTrace();
+    public ILicenseUtils getLicenseUtils() {
+        return licenseUtils;
     }
 
-    try {
-      int sigLength = si.readInt();
-      sig = new byte[sigLength];
-      si.read(sig);
-
-      ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-      byte[] buf = new byte[SIZE];
-      int len;
-      while ((len = si.read(buf)) != -1) {
-        dataStream.write(buf, 0, len);
-      }
-      dataStream.flush();
-      data = dataStream.toByteArray();
-      dataStream.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        si.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+    public void setLicenseUtils(ILicenseUtils licenseUtils) {
+        this.licenseUtils = licenseUtils;
     }
 
+    private Database databaseManager;
 
-    getLicenseUtils().setLicense(new String(Base64Coder.encode(data)));
+    public Database getDatabaseManager() {
+        return databaseManager;
+    }
 
-    return Response.ok("License Upload Successful").build();
-  }
+    public void setDatabaseManager(Database databaseManager) {
+        this.databaseManager = databaseManager;
+    }
 
-  /**
-   * Validate the license installed on the server.
-   * @summary License validation
-   * @return A response indicating whether the operation was successful.
-   */
-  @GET
-  @Path("/validate")
-  @Produces({ "text/plain" })
-  @ReturnType("java.lang.String")
-  public Response validateLicense() {
+    public void setUserService(UserService us) {
+        userService = us;
+    }
+
+    /**
+     * Get the saiku
+     *
+     * @return A response containing a license object.
+     * @summary Get the Saiku License installed on the current server
+     */
+    @GET
+    @Produces({"application/json"})
+    public Response getLicense() {
+        try {
+            return Response.ok().entity(licenseUtils.getLicense()).build();
+        } catch (IOException | RepositoryException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return Response.serverError().build();
+    }
+
+    private static final int SIZE = 2048;
+
+
+    /**
+     * Upload a new license to the Saiku server.
+     *
+     * @param is A license encapsulated in an input stream
+     * @return An acknowledgement as to whether the server installation was successful.
+     * @summary Upload a new license
+     */
+    @POST
+    @Consumes("application/x-java-serialized-object")
+    @Produces("text/plain")
+    @ReturnType("java.lang.String")
+    public Response saveLicense(InputStream is) {
+        System.out.println("-------> save license start....");
+        ObjectInputStream si = null;
+        byte[] sig;
+        byte[] data = null;
+        try {
+            si = new ObjectInputStream(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            int sigLength = si.readInt();
+            sig = new byte[sigLength];
+            si.read(sig);
+
+            ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+            byte[] buf = new byte[SIZE];
+            int len;
+            while ((len = si.read(buf)) != -1) {
+                dataStream.write(buf, 0, len);
+            }
+            dataStream.flush();
+            data = dataStream.toByteArray();
+            dataStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                si.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("--------> read license is OK!!!");
+        getLicenseUtils().setLicense(new String(Base64Coder.encode(data)));
+
+        return Response.ok("License Upload Successful").build();
+    }
+
+    /**
+     * Validate the license installed on the server.
+     *
+     * @return A response indicating whether the operation was successful.
+     * @summary License validation
+     */
+    @GET
+    @Path("/validate")
+    @Produces({"text/plain"})
+    @ReturnType("java.lang.String")
+    public Response validateLicense() {
 //    if(!userService.isAdmin()){
 //      return Response.status(Response.Status.FORBIDDEN).build();
 //    }
@@ -164,160 +167,167 @@ public class License {
 //    } catch (Exception e) {
 //      e.printStackTrace();
 //    }
-    return Response.ok().entity("Valid License").build();
+        return Response.ok().entity("Valid License").build();
 
 
-  }
-
-
-
-  /**
-   * Get the current user list from the server.
-   * @summary Get the user list
-   * @return A list of users.
-   */
-  @GET
-  @Path("/users")
-  @Produces({"application/json"})
-  @ReturnType("java.util.ArrayList<UserList>")
-  public Response getUserlist(){
-    if(!userService.isAdmin()){
-      return Response.status(Response.Status.FORBIDDEN).build();
     }
-    try {
-      List<String> l = getAuthUsers();
-      if(l!=null) {
-        List<UserList> ul = new ArrayList();
-        int i = 0;
-        for (String l2 : l) {
-          ul.add(new UserList(l2, i));
-          i++;
+
+
+    /**
+     * Get the current user list from the server.
+     *
+     * @return A list of users.
+     * @summary Get the user list
+     */
+    @GET
+    @Path("/users")
+    @Produces({"application/json"})
+    @ReturnType("java.util.ArrayList<UserList>")
+    public Response getUserlist() {
+        if (!userService.isAdmin()) {
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-        return Response.ok().entity(ul).build();
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
+        try {
+            List<String> l = getAuthUsers();
+            if (l != null) {
+                List<UserList> ul = new ArrayList();
+                int i = 0;
+                for (String l2 : l) {
+                    ul.add(new UserList(l2, i));
+                    i++;
+                }
+                return Response.ok().entity(ul).build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-    return null;
-  }
 
-  /**
-   * Upload a user list to the server.
-   * @summary Upload user list
-   * @param l A List of UserList objects
-   * @return A response indicating whether the operation was successful.
-   */
-  @POST
-  @Path("/users")
-  @Produces({"text/plain"})
-  @Consumes({"application/json"})
-  @ReturnType("java.lang.String")
-  public Response createUserList(List<UserList> l){
-    try {
-      List<String> l3 = new ArrayList<>();
-      for(UserList l2 : l){
-        l3.add(l2.getName());
-      }
-      addUsers(l3);
-    } catch (SQLException e) {
-      e.printStackTrace();
+    /**
+     * Upload a user list to the server.
+     *
+     * @param l A List of UserList objects
+     * @return A response indicating whether the operation was successful.
+     * @summary Upload user list
+     */
+    @POST
+    @Path("/users")
+    @Produces({"text/plain"})
+    @Consumes({"application/json"})
+    @ReturnType("java.lang.String")
+    public Response createUserList(List<UserList> l) {
+        try {
+            List<String> l3 = new ArrayList<>();
+            for (UserList l2 : l) {
+                l3.add(l2.getName());
+            }
+            addUsers(l3);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Response.ok().entity("List created").build();
+
     }
-    return Response.ok().entity("List created").build();
 
-  }
+    /**
+     * Update the list of users with new users.
+     *
+     * @param l A list of UserList objects
+     * @return A response indicating whether the operation was successful.
+     * @summary Update user list
+     */
+    @PUT
+    @Path("/users")
+    @Produces({"text/plain"})
+    @Consumes({"application/json"})
+    @ReturnType("java.lang.String")
+    public Response updateUserList(List<UserList> l) {
+        try {
+            List<String> l3 = new ArrayList<>();
+            for (UserList l2 : l) {
+                l3.add(l2.getName());
+            }
+            updateUsers(l3);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Response.ok().entity("List updated").build();
 
-  /**
-   * Update the list of users with new users.
-   * @summary Update user list
-   * @param l A list of UserList objects
-   * @return A response indicating whether the operation was successful.
-   */
-  @PUT
-  @Path("/users")
-  @Produces({"text/plain"})
-  @Consumes({"application/json"})
-  @ReturnType("java.lang.String")
-  public Response updateUserList(List<UserList> l){
-    try {
-      List<String> l3 = new ArrayList<>();
-      for(UserList l2 : l){
-        l3.add(l2.getName());
-      }
-      updateUsers(l3);
-    } catch (SQLException e) {
-      e.printStackTrace();
     }
-    return Response.ok().entity("List updated").build();
 
-  }
+    /**
+     * Delete the user list from the server.
+     *
+     * @return A response indicating whether the operation was successful.
+     * @summary Delete user list.
+     */
+    @DELETE
+    @Path("/users")
+    @Produces({"application/json"})
+    @ReturnType("java.lang.String")
+    public Response deleteUserlist() {
 
-  /**
-   * Delete the user list from the server.
-   * @summary Delete user list.
-   * @return A response indicating whether the operation was successful.
-   */
-  @DELETE
-  @Path("/users")
-  @Produces({"application/json"})
-  @ReturnType("java.lang.String")
-  public Response deleteUserlist(){
-
-    try {
-      List<String> l = getAuthUsers();
-      List<UserList> ul = new ArrayList<>();
-      int i = 0;
-      for(String l2 : l) {
-        ul.add(new UserList(l2, i));
-        i++;
-      }
-      return Response.ok().entity(ul).build();
-    } catch (SQLException e) {
-      e.printStackTrace();
+        try {
+            List<String> l = getAuthUsers();
+            List<UserList> ul = new ArrayList<>();
+            int i = 0;
+            for (String l2 : l) {
+                ul.add(new UserList(l2, i));
+                i++;
+            }
+            return Response.ok().entity(ul).build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-    return null;
-  }
 
-  /**
-   * Get the valid users from the database.
-   * @return a list of usernames
-   * @throws SQLException
-   */
-  private List<String> getAuthUsers() throws SQLException {
-    return databaseManager.getUsers();
-  }
-
-  /**
-   * Get the user quota for existing users with no license
-   * @return a list of user quota.
-   */
-  @GET
-  @Produces("application/json")
-  @Path("/quota")
-  @ReturnType("java.util.List<UserQuota>")
-  public Response getUserQuota(){
-    if(!userService.isAdmin()){
-      return Response.status(Response.Status.FORBIDDEN).build();
+    /**
+     * Get the valid users from the database.
+     *
+     * @return a list of usernames
+     * @throws SQLException
+     */
+    private List<String> getAuthUsers() throws SQLException {
+        return databaseManager.getUsers();
     }
-    return Response.ok().entity(100000000).build();
-  }
+
+    /**
+     * Get the user quota for existing users with no license
+     *
+     * @return a list of user quota.
+     */
+    @GET
+    @Produces("application/json")
+    @Path("/quota")
+    @ReturnType("java.util.List<UserQuota>")
+    public Response getUserQuota() {
+        if (!userService.isAdmin()) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        return Response.ok().entity(100000000).build();
+    }
 
 
-  /**
-   * Add users to the database.
-   * @param l List of usernames
-   * @throws SQLException
-   */
-  public void addUsers(List<String> l) throws SQLException {
-    databaseManager.addUsers(l);
-  }
+    /**
+     * Add users to the database.
+     *
+     * @param l List of usernames
+     * @throws SQLException
+     */
+    public void addUsers(List<String> l) throws SQLException {
+        databaseManager.addUsers(l);
+    }
 
-  /**
-   * Add users to the database.
-   * @param l List of usernames
-   * @throws SQLException
-   */
-  public void updateUsers(List<String> l) throws SQLException {
-    databaseManager.addUsers(l);
-  }
+    /**
+     * Add users to the database.
+     *
+     * @param l List of usernames
+     * @throws SQLException
+     */
+    public void updateUsers(List<String> l) throws SQLException {
+        databaseManager.addUsers(l);
+    }
 
 }

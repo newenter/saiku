@@ -5,29 +5,30 @@ package org.saiku.license;
  */
 public class UserQuota {
 
-  private String user;
-  private int remainingLogins;
+    private String user;
+    private int    remainingLogins;
 
-  public UserQuota() {
-  }
-  public UserQuota(String user, int remainingLogins) {
-    this.user = user;
-    this.remainingLogins = remainingLogins;
-  }
+    public UserQuota() {
+    }
 
-  public String getUser() {
-    return user;
-  }
+    public UserQuota(String user, int remainingLogins) {
+        this.user = user;
+        this.remainingLogins = remainingLogins;
+    }
 
-  public void setUser(String user) {
-    this.user = user;
-  }
+    public String getUser() {
+        return user;
+    }
 
-  public int getRemainingLogins() {
-    return remainingLogins;
-  }
+    public void setUser(String user) {
+        this.user = user;
+    }
 
-  public void setRemainingLogins(int remainingLogins) {
-    this.remainingLogins = remainingLogins;
-  }
+    public int getRemainingLogins() {
+        return remainingLogins;
+    }
+
+    public void setRemainingLogins(int remainingLogins) {
+        this.remainingLogins = remainingLogins;
+    }
 }

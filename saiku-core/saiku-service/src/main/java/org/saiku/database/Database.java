@@ -64,9 +64,10 @@ public class Database {
 
 
     private JdbcDataSource ds;
-    private static final Logger log = LoggerFactory.getLogger(Database.class);
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private static final Logger                log             = LoggerFactory.getLogger(Database.class);
+    private final        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private IDatasourceManager dsm;
+
     public Database() {
 
     }
@@ -89,7 +90,7 @@ public class Database {
 //        loadFoodmart();
 //        loadEarthquakes();
         loadLegacyDatasources();
-//        importLicense();
+        importLicense();
     }
 
     private void initDB() {
@@ -106,7 +107,7 @@ public class Database {
         String url = servletContext.getInitParameter("foodmart.url");
         String user = servletContext.getInitParameter("foodmart.user");
         String pword = servletContext.getInitParameter("foodmart.password");
-        if(url!=null && !url.equals("${foodmart_url}")) {
+        if (url != null && !url.equals("${foodmart_url}")) {
             JdbcDataSource ds2 = new JdbcDataSource();
             ds2.setURL(dsm.getFoodmarturl());
             ds2.setUser(user);
@@ -120,16 +121,16 @@ public class Database {
                 // Table exists
                 Statement statement = c.createStatement();
 
-                statement.execute("RUNSCRIPT FROM '"+dsm.getFoodmartdir()+"/foodmart_h2.sql'");
+                statement.execute("RUNSCRIPT FROM '" + dsm.getFoodmartdir() + "/foodmart_h2.sql'");
 
                 statement.execute("alter table \"time_by_day\" add column \"date_string\" varchar(30);"
-                                  + "update \"time_by_day\" "
-                                  + "set \"date_string\" = TO_CHAR(\"the_date\", 'yyyy/mm/dd');");
+                        + "update \"time_by_day\" "
+                        + "set \"date_string\" = TO_CHAR(\"the_date\", 'yyyy/mm/dd');");
                 String schema = null;
                 try {
                     schema = readFile(dsm.getFoodmartschema(), StandardCharsets.UTF_8);
                 } catch (IOException e) {
-                    log.error("Can't read schema file",e);
+                    log.error("Can't read schema file", e);
                 }
                 try {
                     dsm.addSchema(schema, "/datasources/foodmart4.xml", null);
@@ -138,8 +139,8 @@ public class Database {
                 }
                 Properties p = new Properties();
                 p.setProperty("driver", "mondrian.olap4j.MondrianOlap4jDriver");
-                p.setProperty("location", "jdbc:mondrian:Jdbc=jdbc:h2:"+dsm.getFoodmartdir()+"/foodmart;"+
-                "Catalog=mondrian:///datasources/foodmart4.xml;JdbcDrivers=org.h2.Driver");
+                p.setProperty("location", "jdbc:mondrian:Jdbc=jdbc:h2:" + dsm.getFoodmartdir() + "/foodmart;" +
+                        "Catalog=mondrian:///datasources/foodmart4.xml;JdbcDrivers=org.h2.Driver");
                 p.setProperty("username", "sa");
                 p.setProperty("password", "");
                 p.setProperty("id", "4432dd20-fcae-11e3-a3ac-0800200c9a66");
@@ -150,7 +151,6 @@ public class Database {
                 } catch (Exception e) {
                     log.error("Can't add data source to repo", e);
                 }
-
 
 
             } else {
@@ -199,8 +199,8 @@ public class Database {
 
                 p.setProperty("driver", "mondrian.olap4j.MondrianOlap4jDriver");
                 p.setProperty("location",
-                    "jdbc:mondrian:Jdbc=jdbc:h2:" + dsm.getEarthquakeDir() + "/earthquakes;MODE=MySQL;" +
-                    "Catalog=mondrian:///datasources/earthquakes.xml;JdbcDrivers=org.h2.Driver");
+                        "jdbc:mondrian:Jdbc=jdbc:h2:" + dsm.getEarthquakeDir() + "/earthquakes;MODE=MySQL;" +
+                                "Catalog=mondrian:///datasources/earthquakes.xml;JdbcDrivers=org.h2.Driver");
                 p.setProperty("username", "sa");
                 p.setProperty("password", "");
                 p.setProperty("id", "4432dd20-fcae-11e3-a3ac-0800200c9a67");
@@ -216,11 +216,11 @@ public class Database {
                     dsm.saveInternalFile("/homes/home:admin/sample_reports", null, null);
                     String exts[] = {"saiku"};
                     Iterator<File> files =
-                        FileUtils.iterateFiles(new File("../../data/sample_reports"), exts, false);
+                            FileUtils.iterateFiles(new File("../../data/sample_reports"), exts, false);
 
-                    while(files.hasNext()){
+                    while (files.hasNext()) {
                         File f = files.next();
-                        dsm.saveInternalFile("/homes/home:admin/sample_reports/"+f.getName(),FileUtils.readFileToString(f
+                        dsm.saveInternalFile("/homes/home:admin/sample_reports/" + f.getName(), FileUtils.readFileToString(f
                                 .getAbsoluteFile()), null);
                         files.remove();
                     }
@@ -229,8 +229,7 @@ public class Database {
                     e.printStackTrace();
                 }
 
-            }
-            else {
+            } else {
                 Statement statement = c.createStatement();
 
                 statement.executeQuery("select 1");
@@ -239,11 +238,11 @@ public class Database {
     }
 
     private static String readFile(String path, Charset encoding)
-            throws IOException
-    {
+            throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
     }
+
     private void loadUsers() throws SQLException {
 
         Connection c = ds.getConnection();
@@ -282,7 +281,7 @@ public class Database {
         }
 
         String encrypt = servletContext.getInitParameter("db.encryptpassword");
-        if(encrypt.equals("true") && !checkUpdatedEncyption()){
+        if (encrypt.equals("true") && !checkUpdatedEncyption()) {
             log.debug("Encrypting User Passwords");
             updateForEncyption();
             log.debug("Finished Encrypting Passwords");
@@ -291,7 +290,7 @@ public class Database {
 
     }
 
-    private boolean checkUpdatedEncyption() throws SQLException{
+    private boolean checkUpdatedEncyption() throws SQLException {
         Connection c = ds.getConnection();
 
         Statement statement = c.createStatement();
@@ -299,6 +298,7 @@ public class Database {
         result.next();
         return result.getInt("c") != 0;
     }
+
     private void updateForEncyption() throws SQLException {
         Connection c = ds.getConnection();
 
@@ -307,13 +307,13 @@ public class Database {
 
         ResultSet result = statement.executeQuery("select username, password from users");
 
-        while(result.next()){
+        while (result.next()) {
             statement = c.createStatement();
 
             String pword = result.getString("password");
             String hashedPassword = passwordEncoder.encode(pword);
             String sql = "UPDATE users " +
-                        "SET password = '"+hashedPassword+"' WHERE username = '"+result.getString("username")+"'";
+                    "SET password = '" + hashedPassword + "' WHERE username = '" + result.getString("username") + "'";
             statement.executeUpdate(sql);
         }
         statement = c.createStatement();
@@ -339,14 +339,12 @@ public class Database {
     }
 
 
-    public List<String> getUsers() throws java.sql.SQLException
-    {
+    public List<String> getUsers() throws java.sql.SQLException {
         //Stub for EE.
         return null;
     }
 
-    public void addUsers(List<String> l) throws java.sql.SQLException
-    {
+    public void addUsers(List<String> l) throws java.sql.SQLException {
         //Stub for EE.
     }
 
@@ -365,7 +363,7 @@ public class Database {
             repoURL = fileObject.getURL();
             if (repoURL == null) {
                 throw new Exception(
-                    "Cannot load connection repository from path: " + path);
+                        "Cannot load connection repository from path: " + path);
             } else {
 //load();
             }
@@ -373,7 +371,9 @@ public class Database {
             //LOG_EELOADER.error("Exception", e);
         }
     }
+
     public void importLicense() {
+        log.error("导入license");
         setPath("res:saiku-license");
         try {
             if (repoURL != null) {

@@ -1,14 +1,16 @@
 package org.saiku.database.dto;
 
-import java.lang.String; /**
+import java.lang.String;
+
+/**
  * Created by bugg on 01/05/14.
  */
 public class SaikuUser {
-  private String username;
-  private String email;
-  private String password;
-  private String[] roles;
-    private int id;
+    private String   username;
+    private String   email;
+    private String   password;
+    private String[] roles;
+    private int      id;
 
     public String getUsername() {
         return username;
